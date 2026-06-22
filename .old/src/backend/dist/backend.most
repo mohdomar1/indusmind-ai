@@ -1,0 +1,277 @@
+// Version: 3.0.0
+type AccessControlState__836714403 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__222667396<Principal, UserRole__686137147>
+  };
+type ActivityItem__428183146 =
+  {
+    activityType : ActivityType__549445535;
+    description : Text;
+    id : Nat;
+    relatedDocumentId : ?DocumentId__446996092;
+    timestamp : Timestamp__11254883
+  };
+type ActivityType__549445535 =
+  {
+    #analysisRun;
+    #chatCreated;
+    #complianceChecked;
+    #documentProcessed;
+    #documentUploaded;
+    #entityExtracted;
+    #incidentRecorded;
+    #relationshipCreated
+  };
+type ChatMessageId__1046077332 = Nat;
+type ChatMessageId__345077661 = ChatMessageId__1046077332;
+type ChatMessage__559859432 =
+  {
+    confidence : ?Float;
+    content : Text;
+    createdAt : Timestamp__753029554;
+    id : ChatMessageId__345077661;
+    role : MessageRole__512297421;
+    sources : [SourceCitation__203930755];
+    threadId : ChatThreadId__36660075
+  };
+type ChatThreadId__36660075 = ChatThreadId__52165688;
+type ChatThreadId__52165688 = Nat;
+type ChatThread__377818600 =
+  {
+    createdAt : Timestamp__753029554;
+    id : ChatThreadId__36660075;
+    owner : Principal;
+    title : Text;
+    updatedAt : Timestamp__753029554
+  };
+type ChunkId__126524173 = Nat;
+type ComplianceCheckId__292098170 = Nat;
+type ComplianceCheckId__647788550 = ComplianceCheckId__292098170;
+type ComplianceFinding__435824930 =
+  {
+    createdAt : Timestamp__67021236;
+    description : Text;
+    documentId : DocumentId__446996092;
+    findingType : Text;
+    id : ComplianceCheckId__647788550;
+    severity : Severity__910908659;
+    status : FindingStatus__66220429
+  };
+type Data__80296667<K, V> =
+  {var count : Nat__1040412405; kvs : [var ?(K, V)]};
+type DocumentChunk__303140358 =
+  {
+    chunkIndex : Nat;
+    content : Text;
+    createdAt : Timestamp__218598288;
+    documentId : DocumentId__668020087;
+    embedding : ?[Float];
+    id : ChunkId__126524173
+  };
+type DocumentId__446996092 = Nat;
+type DocumentId__668020087 = DocumentId__446996092;
+type DocumentMetadata__582319780 =
+  {
+    assetNames : [Text];
+    dates : [Text];
+    equipmentIds : [Text];
+    failureTypes : [Text];
+    fileSize : Nat;
+    maintenanceEvents : [Text];
+    pageCount : ?Nat;
+    personnel : [Text];
+    regulatoryReferences : [Text];
+    safetyReferences : [Text]
+  };
+type DocumentStatus__193842455 =
+  {#chunked; #embedded; #error; #extracted; #processing; #ready; #uploaded};
+type Document__57377506 =
+  {
+    blob : ExternalBlob__365673026;
+    createdAt : Timestamp__218598288;
+    extractedText : ?Text;
+    filename : Text;
+    id : DocumentId__668020087;
+    metadata : DocumentMetadata__582319780;
+    mimeType : Text;
+    owner : Principal;
+    status : DocumentStatus__193842455;
+    updatedAt : Timestamp__218598288
+  };
+type EntityId__892221652 = Nat;
+type EntityId__985627275 = EntityId__892221652;
+type EntityType__766758811 =
+  {
+    #asset;
+    #document;
+    #equipment;
+    #event;
+    #failure;
+    #location;
+    #other;
+    #person;
+    #procedure;
+    #regulation
+  };
+type Entity__56029619 =
+  {
+    createdAt : Timestamp__787373227;
+    entityType : EntityType__766758811;
+    id : EntityId__985627275;
+    name : Text;
+    properties : [(Text, Text)];
+    sourceDocumentId : ?DocumentId__446996092
+  };
+type ExternalBlob__365673026 = Blob;
+type FindingStatus__66220429 = {#dismissed; #inReview; #open; #resolved};
+type IncidentId__49953973 = IncidentId__610298952;
+type IncidentId__610298952 = Nat;
+type IncidentRecord__558929664 =
+  {
+    createdAt : Timestamp__67021236;
+    date : Text;
+    description : Text;
+    equipmentId : ?Text;
+    id : IncidentId__49953973;
+    incidentType : Text;
+    severity : Severity__910908659;
+    sourceDocumentId : ?DocumentId__446996092;
+    title : Text
+  };
+type Internal__41346355<K, V> =
+  {children : [var ?Node__1000929467<K, V>]; data : Data__80296667<K, V>};
+type Leaf__712614010<K, V> = {data : Data__80296667<K, V>};
+type Map__222667396<K, V> = Map__912772452<K, V>;
+type Map__709709801<K, V> =
+  {var root : Node__1000929467<K, V>; var size : Nat__1040412405};
+type Map__912772452<K, V> = Map__709709801<K, V>;
+type MessageRole__512297421 = {#assistant; #user};
+type Nat__1040412405 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__1000929467<K, V> =
+  {#internal : Internal__41346355<K, V>; #leaf : Leaf__712614010<K, V>};
+type RelationshipId__1031878811 = Nat;
+type RelationshipId__864493738 = RelationshipId__1031878811;
+type RelationshipType__311979990 =
+  {
+    #causes;
+    #compliesWith;
+    #inspectedBy;
+    #leadsTo;
+    #locatedAt;
+    #maintainedBy;
+    #other;
+    #partOf;
+    #references;
+    #similarTo;
+    #violates
+  };
+type Relationship__1061275428 =
+  {
+    confidence : Float;
+    createdAt : Timestamp__787373227;
+    id : RelationshipId__864493738;
+    relationshipType : RelationshipType__311979990;
+    sourceDocumentId : ?DocumentId__446996092;
+    sourceId : EntityId__985627275;
+    targetId : EntityId__985627275
+  };
+type Severity__910908659 = {#critical; #major; #minor; #moderate};
+type SourceCitation__203930755 =
+  {
+    chunkIndex : Nat;
+    documentId : DocumentId__446996092;
+    documentName : Text;
+    excerpt : Text
+  };
+type Timestamp__11254883 = Timestamp__301639476;
+type Timestamp__218598288 = Timestamp__301639476;
+type Timestamp__301639476 = Nat;
+type Timestamp__67021236 = Timestamp__301639476;
+type Timestamp__753029554 = Timestamp__301639476;
+type Timestamp__787373227 = Timestamp__301639476;
+type UserRole__686137147 = {#admin; #guest; #user};
+actor ({
+  in var accessControlState : AccessControlState__836714403;
+  in var activityLog : Map__222667396<Nat, ActivityItem__428183146>;
+  in var chunks : Map__222667396<Nat, DocumentChunk__303140358>;
+  in var documents : Map__222667396<Nat, Document__57377506>;
+  in var entities : Map__222667396<Nat, Entity__56029619>;
+  in var findings : Map__222667396<Nat, ComplianceFinding__435824930>;
+  in var incidents : Map__222667396<Nat, IncidentRecord__558929664>;
+  in var messages : Map__222667396<Nat, ChatMessage__559859432>;
+  in var nextActivityId : {var value : Nat};
+  in var nextAnalysisId : {var value : Nat};
+  in var nextCheckId : {var value : Nat};
+  in var nextChunkId : {var value : Nat};
+  in var nextDocumentId : {var value : Nat};
+  in var nextEntityId : {var value : Nat};
+  in var nextIncidentId : {var value : Nat};
+  in var nextMessageId : {var value : Nat};
+  in var nextRelationshipId : {var value : Nat};
+  in var nextThreadId : {var value : Nat};
+  in var relationships : Map__222667396<Nat, Relationship__1061275428>;
+  in var threads : Map__222667396<Nat, ChatThread__377818600>
+}, {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__222667396<Principal, UserRole__686137147>
+    };
+  stable activityLog :
+    {
+      var root : Node__1000929467<Nat, ActivityItem__428183146>;
+      var size : Nat__1040412405
+    };
+  stable chunks :
+    {
+      var root : Node__1000929467<Nat, DocumentChunk__303140358>;
+      var size : Nat__1040412405
+    };
+  stable documents :
+    {
+      var root : Node__1000929467<Nat, Document__57377506>;
+      var size : Nat__1040412405
+    };
+  stable entities :
+    {
+      var root : Node__1000929467<Nat, Entity__56029619>;
+      var size : Nat__1040412405
+    };
+  stable findings :
+    {
+      var root : Node__1000929467<Nat, ComplianceFinding__435824930>;
+      var size : Nat__1040412405
+    };
+  stable incidents :
+    {
+      var root : Node__1000929467<Nat, IncidentRecord__558929664>;
+      var size : Nat__1040412405
+    };
+  stable messages :
+    {
+      var root : Node__1000929467<Nat, ChatMessage__559859432>;
+      var size : Nat__1040412405
+    };
+  stable nextActivityId : {var value : Nat};
+  stable nextAnalysisId : {var value : Nat};
+  stable nextCheckId : {var value : Nat};
+  stable nextChunkId : {var value : Nat};
+  stable nextDocumentId : {var value : Nat};
+  stable nextEntityId : {var value : Nat};
+  stable nextIncidentId : {var value : Nat};
+  stable nextMessageId : {var value : Nat};
+  stable nextRelationshipId : {var value : Nat};
+  stable nextThreadId : {var value : Nat};
+  stable relationships :
+    {
+      var root : Node__1000929467<Nat, Relationship__1061275428>;
+      var size : Nat__1040412405
+    };
+  stable threads :
+    {
+      var root : Node__1000929467<Nat, ChatThread__377818600>;
+      var size : Nat__1040412405
+    }
+});

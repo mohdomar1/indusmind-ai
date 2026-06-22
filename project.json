@@ -1,0 +1,25 @@
+{
+  "overview": "INDUSMIND AI – Industrial Knowledge Intelligence Platform with live backend data, React Flow knowledge graph, multi-turn AI Copilot, RCA and Compliance agents.",
+  "features": [
+    "Backend manufacturing data seeding on init",
+    "Frontend-backend integration across all 8 pages",
+    "React Flow interactive knowledge graph with live data",
+    "Multi-turn persistent conversation history",
+    "Gemini-powered Expert Knowledge Copilot with citations",
+    "Root Cause Analysis Agent",
+    "Compliance Intelligence Agent",
+    "Demo polish with quick actions and suggested questions"
+  ],
+  "category": "productivity",
+  "tags": [
+    "ai",
+    "industrial",
+    "knowledge-graph",
+    "copilot",
+    "compliance",
+    "root-cause-analysis",
+    "dashboard",
+    "hackathon"
+  ],
+  "last_updated": "2026-06-22T17:15:47.717Z"
+}

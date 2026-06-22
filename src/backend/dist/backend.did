@@ -1,0 +1,492 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Timestamp = nat;
+type SourceCitation = 
+ record {
+   chunkIndex: nat;
+   documentId: DocumentId;
+   documentName: text;
+   excerpt: text;
+ };
+type SimilarFailure = 
+ record {
+   date: text;
+   description: text;
+   equipmentId: text;
+   incidentId: IncidentId;
+   similarityScore: float64;
+ };
+type Severity = 
+ variant {
+   critical;
+   major;
+   minor;
+   moderate;
+ };
+type RootCauseResult = 
+ record {
+   confidenceScore: float64;
+   equipmentId: opt text;
+   evidence: vec EvidenceItem;
+   generatedAt: Timestamp;
+   likelyCauses: vec CauseAnalysis;
+   recommendedActions: vec text;
+   similarFailures: vec SimilarFailure;
+   userQuery: text;
+ };
+type RiskLevel = 
+ variant {
+   critical;
+   high;
+   low;
+   medium;
+ };
+type RiskCondition = 
+ record {
+   condition: text;
+   historicalIncidents: vec IncidentId;
+   recommendation: text;
+   riskLevel: RiskLevel;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result_9 = 
+ variant {
+   err: AppError;
+   ok: vec DocumentChunk;
+ };
+type Result_8 = 
+ variant {
+   err: AppError;
+   ok: DocumentChunk;
+ };
+type Result_7 = 
+ variant {
+   err: AppError;
+   ok: Entity;
+ };
+type Result_6 = 
+ variant {
+   err: AppError;
+   ok: Relationship;
+ };
+type Result_5 = 
+ variant {
+   err: AppError;
+   ok;
+ };
+type Result_4 = 
+ variant {
+   err: AppError;
+   ok: ComplianceFinding;
+ };
+type Result_3 = 
+ variant {
+   err: AppError;
+   ok: IncidentRecord;
+ };
+type Result_2 = 
+ variant {
+   err: AppError;
+   ok: ComplianceResult;
+ };
+type Result_1 = 
+ variant {
+   err: AppError;
+   ok: ChatMessage;
+ };
+type Result = 
+ variant {
+   err: AppError;
+   ok: Document;
+ };
+type RelationshipType = 
+ variant {
+   causes;
+   compliesWith;
+   inspectedBy;
+   leadsTo;
+   locatedAt;
+   maintainedBy;
+   other;
+   partOf;
+   references;
+   similarTo;
+   violates;
+ };
+type RelationshipId = nat;
+type Relationship = 
+ record {
+   confidence: float64;
+   createdAt: Timestamp;
+   id: RelationshipId;
+   relationshipType: RelationshipType;
+   sourceDocumentId: opt DocumentId;
+   sourceId: EntityId;
+   targetId: EntityId;
+ };
+type Priority = 
+ variant {
+   high;
+   low;
+   medium;
+   urgent;
+ };
+type PreventiveAction = 
+ record {
+   action: text;
+   estimatedImpact: text;
+   priority: Priority;
+ };
+type PatternDetection = 
+ record {
+   affectedEquipment: vec text;
+   description: text;
+   occurrenceCount: nat;
+   patternName: text;
+ };
+type MessageRole = 
+ variant {
+   assistant;
+   user;
+ };
+type LessonsLearnedResult = 
+ record {
+   analysisId: nat;
+   generatedAt: Timestamp;
+   highRiskConditions: vec RiskCondition;
+   patterns: vec PatternDetection;
+   preventiveActions: vec PreventiveAction;
+ };
+type IncidentRecord = 
+ record {
+   createdAt: Timestamp;
+   date: text;
+   description: text;
+   equipmentId: opt text;
+   id: IncidentId;
+   incidentType: text;
+   severity: Severity;
+   sourceDocumentId: opt DocumentId;
+   title: text;
+ };
+type IncidentId = nat;
+type GraphNode = 
+ record {
+   entityType: EntityType;
+   id: EntityId;
+   nodeLabel: text;
+   properties: vec record {
+                     text;
+                     text;
+                   };
+ };
+type GraphEdge = 
+ record {
+   confidence: float64;
+   edgeLabel: text;
+   id: RelationshipId;
+   relationshipType: RelationshipType;
+   source: EntityId;
+   target: EntityId;
+ };
+type GraphData = 
+ record {
+   edges: vec GraphEdge;
+   nodes: vec GraphNode;
+ };
+type FindingStatus = 
+ variant {
+   dismissed;
+   inReview;
+   open;
+   resolved;
+ };
+type ExternalBlob = blob;
+type EvidenceItem = 
+ record {
+   documentId: DocumentId;
+   documentName: text;
+   excerpt: text;
+   relevanceScore: float64;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type EntityType = 
+ variant {
+   asset;
+   document;
+   equipment;
+   event;
+   failure;
+   location;
+   other;
+   person;
+   procedure;
+   regulation;
+ };
+type EntityId = nat;
+type Entity = 
+ record {
+   createdAt: Timestamp;
+   entityType: EntityType;
+   id: EntityId;
+   name: text;
+   properties: vec record {
+                     text;
+                     text;
+                   };
+   sourceDocumentId: opt DocumentId;
+ };
+type DocumentSummary = 
+ record {
+   createdAt: Timestamp;
+   filename: text;
+   id: DocumentId;
+   mimeType: text;
+   status: DocumentStatus;
+ };
+type DocumentStatus = 
+ variant {
+   chunked;
+   embedded;
+   error;
+   extracted;
+   processing;
+   ready;
+   uploaded;
+ };
+type DocumentMetadata = 
+ record {
+   assetNames: vec text;
+   dates: vec text;
+   equipmentIds: vec text;
+   failureTypes: vec text;
+   fileSize: nat;
+   maintenanceEvents: vec text;
+   pageCount: opt nat;
+   personnel: vec text;
+   regulatoryReferences: vec text;
+   safetyReferences: vec text;
+ };
+type DocumentId = nat;
+type DocumentChunk = 
+ record {
+   chunkIndex: nat;
+   content: text;
+   createdAt: Timestamp;
+   documentId: DocumentId;
+   embedding: opt vec float64;
+   id: ChunkId;
+ };
+type Document = 
+ record {
+   "blob": ExternalBlob;
+   createdAt: Timestamp;
+   extractedText: opt text;
+   filename: text;
+   id: DocumentId;
+   metadata: DocumentMetadata;
+   mimeType: text;
+   owner: principal;
+   status: DocumentStatus;
+   updatedAt: Timestamp;
+ };
+type DashboardStats = 
+ record {
+   documentsProcessed: nat;
+   recentUploads: nat;
+   totalChatThreads: nat;
+   totalComplianceChecks: nat;
+   totalDocuments: nat;
+   totalEntities: nat;
+   totalIncidents: nat;
+   totalRelationships: nat;
+ };
+type ComplianceViolation = 
+ record {
+   location: text;
+   rule: text;
+   severity: Severity;
+   violation: text;
+ };
+type ComplianceResult = 
+ record {
+   checkId: ComplianceCheckId;
+   complianceScore: float64;
+   documentId: DocumentId;
+   gaps: vec ComplianceGap;
+   generatedAt: Timestamp;
+   riskLevel: RiskLevel;
+   suggestedCorrections: vec text;
+   violations: vec ComplianceViolation;
+ };
+type ComplianceGap = 
+ record {
+   missingIn: text;
+   requirement: text;
+   severity: Severity;
+ };
+type ComplianceFinding = 
+ record {
+   createdAt: Timestamp;
+   description: text;
+   documentId: DocumentId;
+   findingType: text;
+   id: ComplianceCheckId;
+   severity: Severity;
+   status: FindingStatus;
+ };
+type ComplianceCheckId = nat;
+type ChunkId = nat;
+type ChatThreadId = nat;
+type ChatThread = 
+ record {
+   createdAt: Timestamp;
+   id: ChatThreadId;
+   owner: principal;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type ChatMessageId = nat;
+type ChatMessage = 
+ record {
+   confidence: opt float64;
+   content: text;
+   createdAt: Timestamp;
+   id: ChatMessageId;
+   role: MessageRole;
+   sources: vec SourceCitation;
+   threadId: ChatThreadId;
+ };
+type CauseAnalysis = 
+ record {
+   cause: text;
+   probability: float64;
+   supportingEvidence: vec text;
+ };
+type AppError = 
+ variant {
+   alreadyExists;
+   invalidInput;
+   notFound;
+   processingError;
+   storageError;
+   unauthorized;
+ };
+type ActivityType = 
+ variant {
+   analysisRun;
+   chatCreated;
+   complianceChecked;
+   documentProcessed;
+   documentUploaded;
+   entityExtracted;
+   incidentRecorded;
+   relationshipCreated;
+ };
+type ActivityItem = 
+ record {
+   activityType: ActivityType;
+   description: text;
+   id: nat;
+   relatedDocumentId: opt DocumentId;
+   timestamp: Timestamp;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createChatThread: (title: text) -> (ChatThread);
+  createChunks: (documentId: DocumentId, chunkContents: vec text) ->
+   (Result_9);
+  createEmbedding: (chunkId: ChunkId, embedding: vec float64) -> (Result_8);
+  createEntity: (name: text, entityType: EntityType, properties:
+   vec record {
+         text;
+         text;
+       }, sourceDocumentId: opt DocumentId) -> (Result_7);
+  createRelationship: (sourceId: EntityId, targetId: EntityId,
+   relationshipType: RelationshipType, confidence: float64, sourceDocumentId:
+   opt DocumentId) -> (Result_6);
+  deleteDocument: (id: DocumentId) -> (Result_5);
+  extractText: (id: DocumentId, extractedText: text) -> (Result);
+  getCallerUserRole: () -> (UserRole) query;
+  getChatMessages: (threadId: ChatThreadId) -> (vec ChatMessage) query;
+  getChatThreads: () -> (vec ChatThread) query;
+  getDashboardStats: () -> (DashboardStats) query;
+  getDocument: (id: DocumentId) -> (Result) query;
+  getDocuments: () -> (vec DocumentSummary) query;
+  getEntities: (entityType: opt EntityType) -> (vec Entity) query;
+  getGraphData: (centerEntityId: opt EntityId, depth: nat) ->
+   (GraphData) query;
+  getRecentActivity: (limit: nat) -> (vec ActivityItem) query;
+  getRelationships: (entityId: opt EntityId) -> (vec Relationship) query;
+  isCallerAdmin: () -> (bool) query;
+  recordComplianceFinding: (documentId: DocumentId, findingType: text,
+   description: text, severity: Severity, status: FindingStatus) ->
+   (Result_4);
+  recordIncident: (title: text, description: text, equipmentId: opt text,
+   incidentType: text, severity: Severity, date: text, sourceDocumentId:
+   opt DocumentId) -> (Result_3);
+  runComplianceCheck: (documentId: DocumentId) -> (Result_2);
+  runLessonsLearnedAnalysis: () -> (LessonsLearnedResult);
+  runRootCauseAnalysis: (userQuery: text, equipmentId: opt text) ->
+   (RootCauseResult);
+  semanticSearch: (searchQuery: text, limit: nat) ->
+   (vec DocumentChunk) query;
+  sendMessage: (threadId: ChatThreadId, role: MessageRole, content: text,
+   sources: vec SourceCitation, confidence: opt float64) -> (Result_1);
+  uploadDocument: (filename: text, mimeType: text, "blob": ExternalBlob,
+   fileSize: nat) -> (Result);
+}
